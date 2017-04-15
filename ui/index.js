@@ -17,16 +17,26 @@
 //   });
 // }
 
+//DAY 1
+// import React, { Component } from 'react'
+// import { render } from 'react-dom'
+// import styles from '../styles/styles.scss';
+//
+// export default class HelloWorld extends Component {
+//   render() {
+//     return (
+//       <div>
+//         <h1 className={styles.greeting}>Hello World</h1>
+//         </div>
+//     )
+//   }
+// }
+//
+// render(<HelloWorld />, document.getElementById('app'))
+
+//DAY 2
 import React, { Component } from 'react'
 import { render } from 'react-dom'
-import styles from '../styles/styles.scss';
+import routes from './routes'
 
-export default class HelloWorld extends Component {
-  render() {
-    return (
-        <h1 className={styles.greeting}>Hello World</h1>
-    )
-  }
-}
-
-render(<HelloWorld />, document.getElementById('app'))
+render(routes(), document.getElementById('app'))
