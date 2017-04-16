@@ -70,8 +70,19 @@ const autoprefixer = require('autoprefixer');
 module.exports = {
   devtool: 'eval',
   entry: [
+    // patch hot-loader
+    'react-hot-loader/patch',
+    'webpack-dev-server/client?http://localhost:8080',
+    // ยังจำได้ไหม webpack-der-server เราทำได้ทั้ง hot และ inline
+    // แต่เราต้องการแค่ hot module replacement
+    // เราไม่ต้องการ inline ที่จะแอบทะลึ่งไป reload เพจของเรา
+    // เราจึงบอกว่าใช้ hot เท่านั้นนะ
+    'webpack/hot/only-dev-server',
     './ui/theme/elements.scss',
     './ui/index.js'
+  ],
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
   ],
   output: {
     publicPath: '/static/',
@@ -121,10 +132,13 @@ module.exports = {
     ]
   },
   devServer: {
-    historyApiFallback: true,
-    proxy: {
-      '/api/*': {
-        target: 'http://127.0.0.1:5000'
+    hot: true,
+   // เมินไปซะ ชาตินี้อย่าได้บังอาจมา reload เพจอีกเลย
+   inline: false,
+   historyApiFallback: true,
+   proxy: {
+     '/api/*': {
+       target: 'http://127.0.0.1:5000'
       }
     }
   }

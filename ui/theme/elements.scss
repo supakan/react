@@ -1,11 +1,9 @@
 $border-style: 1px solid #cbcbcb;
 $gray1-color: #cbcbcb;
 $gray2-color: #e0e0e0;
-
+$red1-color: #da4453;
 $dark-gray1-color: #2d3e50;
-
 $green1-color: #18d8a9;
-
 $white-color: #fff;
 $black-color: #000;
 
@@ -56,4 +54,25 @@ $black-color: #000;
     color: $dark-gray1-color;
     border: none;
   }
+
+
+.form {
+  fieldset {
+    margin: 0;
+    padding: 0.35rem 0 0.75rem;
+    border: 0;
+  }
+
+  input[type='text'],
+  textarea,
+  label {
+    display: block;
+    margin: 0.25rem 0;
+    width: 100%;
+  }
+
+  .error {
+    color: $red1-color;
+  }
+}
 }
