@@ -1,40 +1,36 @@
-import React, { Component } from 'react'
-import fetch from 'isomorphic-fetch'
-// เรียก PAGES_ENDPOINT มาใช้งาน
-import { PAGES_ENDPOINT } from '../../constants/endpoints'
+import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
+import { loadPages } from '../../actions/page'
 import { Pages } from '../../components'
 
-export default class PagesContainer extends Component {
-  state = {
-    pages: []
+class PagesContainer extends Component {
+  static propTypes = {
+    pages: PropTypes.array.isRequired,
+    onLoadPages: PropTypes.func.isRequired
   }
 
-  // ถ้า pages ของเดิมกับของใหม่เท่ากัน ก็ไม่ต้องทำอะไร
-  shouldComponentUpdate(_nextProps, nextState) {
-    return this.state.pages !== nextState.pages;
+  shouldComponentUpdate(nextProps) {
+    return this.props.pages !== nextProps.pages;
   }
 
   onReloadPages = () => {
-    fetch(PAGES_ENDPOINT)
-      .then((response) => response.json())
-      .then((pages) => this.setState({ pages }))
+    this.props.onLoadPages()
   }
 
   componentDidMount() {
-    // เนื่องจากทั้งปุ่ม reload และใน componentDidMount
-    // มีการโหลดข้อมูลจากเซิร์ฟเวอร์ทั้งคู่
-    // จึงย้ายโค๊ดที่ซ้ำซ้อนแบกไปไว้อีกเมธอดชื่อ onReloadPages
     this.onReloadPages()
   }
 
   render() {
-    // ส่ง onReloadPages ไปให้ ui/components/Pages
-    // เมื่อผู้ใช้งานระบบคลิกปุ่ม reload pages
-    // ui/components/Pages จะเรียกเมธอด onReloadPages ให้ทำงาน
     return (
       <Pages
-        pages={this.state.pages}
+        pages={this.props.pages}
         onReloadPages={this.onReloadPages} />
     )
   }
 }
+
+export default connect(
+  (state) => ({ pages: state.pages }),
+  { onLoadPages: loadPages }
+)(PagesContainer)

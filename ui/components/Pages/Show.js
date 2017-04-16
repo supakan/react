@@ -1,4 +1,3 @@
-// ui/components/Pages/Show.js
 import React, { PropTypes } from 'react'
 
 const ShowPage = ({
