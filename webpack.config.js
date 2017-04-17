@@ -78,24 +78,30 @@ module.exports = {
     // เราไม่ต้องการ inline ที่จะแอบทะลึ่งไป reload เพจของเรา
     // เราจึงบอกว่าใช้ hot เท่านั้นนะ
     'webpack/hot/only-dev-server',
-    './ui/theme/elements.scss',
-    './ui/index.js'
+    './ui/common/theme/elements.scss',
+    './ui/client/index.js'
   ],
+  output: {
+    publicPath: 'http://127.0.0.1:8081/static/',
+      path: path.join(__dirname, 'static'),
+      filename: 'bundle.js'
+  },
   plugins: [
     new webpack.HotModuleReplacementPlugin()
   ],
-  output: {
-    publicPath: '/static/',
-    path: path.join(__dirname, 'static'),
-    filename: 'bundle.js'
-  },
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loaders: [
-          'babel-loader'
+          {
+            loader: 'babel-loader',
+            query: {
+              babelrc: false,
+              presets: ["es2015", "stage-0", "react"]
+            }
+          }
         ]
       },
       {
@@ -114,7 +120,7 @@ module.exports = {
             query: {
               sourceMap: true,
               module: true,
-              localIdentName: '[local]___[hash:base64:5]'
+              localIdentName: '[name]__[local]___[hash:base64:5]'
             }
           },
           {
@@ -136,10 +142,10 @@ module.exports = {
    // เมินไปซะ ชาตินี้อย่าได้บังอาจมา reload เพจอีกเลย
    inline: false,
    historyApiFallback: true,
-   proxy: {
-     '/api/*': {
-       target: 'http://127.0.0.1:5000'
-      }
-    }
+  //  proxy: {
+  //    '/api/*': {
+  //      target: 'http://127.0.0.1:5000'
+  //     }
+  //   }
   }
 };
