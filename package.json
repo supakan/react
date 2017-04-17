@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm-run-all --parallel start-dev-api start-dev-ui start-dev-ssr",
     "start-dev-api": "json-server --watch api/db.json --routes api/routes.json --port 5000",
-    "start-dev-ui": "webpack-dev-server --port 8081",
+    "start-dev-ui": "webpack-dev-server --config ui/webpack/webpack.config.js",
     "start-dev-ssr": "nodemon ./ui/server/index.js"
   },
   "dependencies": {
